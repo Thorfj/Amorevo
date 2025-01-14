@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrapbook</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f3e9ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #7d5ba6;
+      color: white;
+      width: 100%;
+    }
+
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    #gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+    }
+
+    #add-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #7d5ba6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #add-button:hover {
+      background-color: #5a3b7a;
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #popup img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+
+    #popup .controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+    }
+
+    #popup .controls span {
+      padding: 0 20px;
+      user-select: none;
+    }
+
+    #popup .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2em;
+      cursor: pointer;
+      color: white;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #7d5ba6;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    #menu-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #5a3b7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #side-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #7d5ba6;
+      color: white;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    #side-menu h2 {
+      margin-top: 0;
+    }
+
+    #side-menu p {
+      margin: 10px 0;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: white;
+      padding: 5px 10px;
+      transition: background-color 0.3s;
+    }
+
+    footer a:hover {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    footer a.active {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Scrapbook</h1>
+    <button id="menu-toggle">Menu</button>
+  </header>
+  <div id="side-menu">
+    <h2>Menu Lateral</h2>
+    <p>Aqui estão algumas informações adicionais para o menu lateral.</p>
+  </div>
+  <main>
+    <section id="gallery">
+      <img src="/images/SB001.png" alt="Foto 1">
+      <img src="/images/SB002.png" alt="Foto 2">
+      <img src="/images/SB003.png" alt="Foto 3">
+    </section>
+    <button id="add-button">Adicionar mais imagens</button>
+  </main>
+
+  <div id="popup">
+    <div class="close">&times;</div>
+    <div class="controls">
+      <span class="prev">&#8249;</span>
+      <span class="next">&#8250;</span>
+    </div>
+    <img src="" alt="Carrossel de Imagens">
+  </div>
+
+  <footer>
+    <a href="nossoceu.html">Nosso Céu</a>
+    <a href="#" class="active">Scrapbook</a>
+    <a href="index.html">Home</a>
+    <a href="pilula.html">Pílulas de Amor</a>
+    <a href="cartas.html">Cartas de Amor</a>
+  </footer>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const popup = document.getElementById("popup");
+    const popupImage = popup.querySelector("img");
+    const closePopup = popup.querySelector(".close");
+    const prevButton = popup.querySelector(".prev");
+    const nextButton = popup.querySelector(".next");
+    const images = Array.from(gallery.querySelectorAll("img"));
+    let currentIndex = 0;
+
+    gallery.addEventListener("click", (e) => {
+      if (e.target.tagName === "IMG") {
+        currentIndex = images.indexOf(e.target);
+        showImage();
+        popup.style.display = "flex";
+      }
+    });
+
+    closePopup.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+
+    prevButton.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage();
+    });
+
+    nextButton.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage();
+    });
+
+    function showImage() {
+      popupImage.src = images[currentIndex].src;
+      popupImage.alt = images[currentIndex].alt;
+    }
+
+    const addButton = document.getElementById("add-button");
+    addButton.addEventListener("click", () => {
+      const newImage = document.createElement("img");
+      newImage.src = "https://via.placeholder.com/200x200?text=Nova+Foto";
+      newImage.alt = "Nova Foto";
+      gallery.appendChild(newImage);
+      images.push(newImage);
+    });
+    const menuToggle = document.getElementById("menu-toggle");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuToggle.addEventListener("click", () => {
+      sideMenu.style.display = sideMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (sideMenu.style.display === "block" && !sideMenu.contains(e.target) && e.target !== menuToggle) {
+        sideMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>

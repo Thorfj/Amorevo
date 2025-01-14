@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pílulas de Amor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f3e9ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #7d5ba6;
+      color: white;
+      width: 100%;
+      position: absolute;
+      top: 0;
+    }
+
+    #menu-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #5a3b7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #side-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #7d5ba6;
+      color: white;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    #side-menu h2 {
+      margin-top: 0;
+    }
+
+    #side-menu p {
+      margin: 10px 0;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      cursor: pointer;
+      border: 5px solid #7d5ba6;
+      border-radius: 10px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .image-container img:hover {
+      transform: scale(1.05);
+      border-color: #5a3b7a;
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    #popup-content {
+      font-size: 1.5em;
+      margin: 20px;
+      padding: 20px;
+      background-color: #7d5ba6;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    #popup .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2em;
+      cursor: pointer;
+      color: white;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #7d5ba6;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: white;
+      padding: 5px 10px;
+      transition: background-color 0.3s;
+    }
+
+    footer a:hover {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    footer a.active {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Pílulas de Amor</h1>
+    <button id="menu-toggle">Menu</button>
+  </header>
+
+  <div id="side-menu">
+    <h2>Menu Lateral</h2>
+    <p>Aqui estão algumas informações adicionais para o menu lateral.</p>
+  </div>
+
+  <div class="image-container">
+    <img src="/images/Pilula de amor.png" alt="Clique para uma pílula de amor" id="love-image">
+  </div>
+
+  <div id="popup">
+    <div class="close">&times;</div>
+    <div id="popup-content"></div>
+  </div>
+
+  <footer>
+    <a href="nossoceu.html">Nosso Céu</a>
+    <a href="scrapbook.html">Scrapbook</a>
+    <a href="index.html">Contador</a>
+    <a href="#" class="active">Pílulas de Amor</a>
+    <a href="cartas.html">Cartas de Amor</a>
+  </footer>
+
+  <script>
+    const phrases = [
+      "Você é o meu sonho realizado.",
+      "Te amar é a melhor parte do meu dia.",
+      "Seu sorriso ilumina minha alma.",
+      "Com você, tudo faz sentido.",
+      "Cada momento ao seu lado é precioso.",
+      "Você é meu hoje, meu amanhã e meu para sempre.",
+      "Te amo mais do que as palavras podem expressar."
+    ];
+
+    const loveImage = document.getElementById("love-image");
+    const popup = document.getElementById("popup");
+    const popupContent = document.getElementById("popup-content");
+    const closePopup = popup.querySelector(".close");
+
+    loveImage.addEventListener("click", () => {
+      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      popupContent.textContent = randomPhrase;
+      popup.style.display = "flex";
+    });
+
+    closePopup.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popup.style.display = "none";
+      }
+    });
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuToggle.addEventListener("click", () => {
+      sideMenu.style.display = sideMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (sideMenu.style.display === "block" && !sideMenu.contains(e.target) && e.target !== menuToggle) {
+        sideMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>

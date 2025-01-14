@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nosso Céu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f3e9ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #7d5ba6;
+      color: white;
+      width: 100%;
+    }
+
+    #main-content {
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+    }
+
+    #main-content img {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #main-content p {
+      color: #5a3b7a;
+      font-size: 1.2em;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #7d5ba6;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: white;
+      padding: 5px 10px;
+      transition: background-color 0.3s;
+    }
+
+    footer a:hover {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    footer a.active {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    #menu-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #5a3b7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #side-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #7d5ba6;
+      color: white;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    #side-menu h2 {
+      margin-top: 0;
+    }
+
+    #side-menu p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>24/02/2023</h1>
+    <button id="menu-toggle">Menu</button>
+  </header>
+  <div id="side-menu">
+    <h2>Menu Lateral</h2>
+    <p>Aqui estão algumas informações adicionais para o menu lateral.</p>
+  </div>
+
+  <main id="main-content">
+    <img src="/images/Nosso Ceu.png" alt="Céu Estrelado">
+    <p>No dia 24/02/2023, o céu estava repleto de estrelas brilhantes, iluminando a noite com um espetáculo único. Cada estrela parecia contar uma história de amor eterno, como o nosso.</p>
+    <p>Meu amor, sob este céu estrelado, prometo sempre ser o seu abrigo, sua constelação favorita. Te amo infinitamente.</p>
+  </main>
+
+  <footer>
+    <a href="nossoceu.html" class="active">Nosso Céu</a>
+    <a href="scrapbook.html">Scrapbook</a>
+    <a href="index.html">Home</a>
+    <a href="pilula.html">Pílulas de Amor</a>
+    <a href="cartas.html">Cartas de Amor</a>
+  </footer>
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuToggle.addEventListener("click", () => {
+      sideMenu.style.display = sideMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (sideMenu.style.display === "block" && !sideMenu.contains(e.target) && e.target !== menuToggle) {
+        sideMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #f3e9ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #7d5ba6;
+      color: white;
+    }
+
+    #carousel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      height: 200px;
+      margin: 20px 0;
+    }
+
+    #carousel img {
+      width: 100%;
+      max-width: 300px;
+      transition: transform 0.5s ease;
+    }
+
+    #counter {
+      text-align: center;
+      font-size: 2em;
+      margin: 20px 0;
+      color: #5a3b7a;
+    }
+
+    #description {
+      text-align: center;
+      padding: 0 20px;
+      color: #5a3b7a;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #7d5ba6;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    footer a {
+      text-decoration: none;
+      color: white;
+      padding: 5px 10px;
+      transition: background-color 0.3s;
+    }
+
+    footer a:hover {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    footer a.active {
+      background-color: #5a3b7a;
+      border-radius: 5px;
+    }
+
+    #menu-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #5a3b7a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    #side-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #7d5ba6;
+      color: white;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    #side-menu h2 {
+      margin-top: 0;
+    }
+
+    #side-menu p {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Nome do Casal</h1>
+    <button id="menu-toggle">Menu</button>
+  </header>
+  <div id="side-menu">
+    <h2>Menu Lateral</h2>
+    <p>Aqui estão algumas informações adicionais para o menu lateral.</p>
+  </div>
+  <section id="carousel">
+    <img src="/images/Casal 01.png" alt="Casal 1">
+    <img src="/images/Casal 02.png" alt="Casal 2" style="display: none;">
+    <img src="/images/Casal 03.png" alt="Casal 3" style="display: none;">
+  </section>
+
+  <div id="counter">
+    <span id="time">00:00:00</span>
+  </div>
+
+  <div id="description">
+    <p>Amor da minha vida, cada segundo ao seu lado é uma eternidade de felicidade. Você é o meu universo, minha inspiração, e a razão de cada sorriso meu. Te amo mais do que as palavras podem expressar.</p>
+  </div>
+
+  <footer>
+    <a href="nossoceu.html">Nosso Céu</a>
+    <a href="scrapbook.html">Scrapbook</a>
+    <a href="index.html" class="active">Home</a>
+    <a href="pilula.html">Pílulas de Amor</a>
+    <a href="cartas.html">Cartas de Amor</a>
+  </footer>
+
+  <script>
+    // Carrossel de imagens
+    const images = document.querySelectorAll("#carousel img");
+    let currentImage = 0;
+
+    setInterval(() => {
+      images[currentImage].style.display = "none";
+      currentImage = (currentImage + 1) % images.length;
+      images[currentImage].style.display = "block";
+    }, 3000);
+
+    // Timer baseado na data de início (24/02/2023)
+    const startDate = new Date("2023-02-24T00:00:00");
+    const counter = document.getElementById("time");
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      // Cálculo dos anos, meses, dias, horas, minutos e segundos
+      const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+      const months = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+      const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      counter.textContent = `${years} anos ${months} meses ${days} dias ${hours} horas ${minutes} minutos ${seconds} segundos`;
+    }
+
+    // Atualiza o timer a cada segundo
+    setInterval(updateTimer, 1000);
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuToggle.addEventListener("click", () => {
+      sideMenu.style.display = sideMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (sideMenu.style.display === "block" && !sideMenu.contains(e.target) && e.target !== menuToggle) {
+        sideMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
+</html>
